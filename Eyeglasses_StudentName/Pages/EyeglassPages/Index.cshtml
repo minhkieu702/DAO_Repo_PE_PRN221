@@ -1,0 +1,102 @@
+﻿@page
+@model Eyeglasses_StudentName.Pages.EyeglassPages.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["message"]
+    </div>
+}
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form method="get">
+    <div class="form-group">
+        Searching by name <input name="s1" value="@Model.Search1" />
+        Searching by quantity <input name="s2" value="@Model.Search2" />
+        <input name="newCurPage" value=1 hidden />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Eyeglass[0].EyeglassesName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eyeglass[0].EyeglassesDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eyeglass[0].FrameColor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eyeglass[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eyeglass[0].Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eyeglass[0].CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eyeglass[0].LensType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Eyeglass) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EyeglassesName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EyeglassesDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FrameColor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LensType.LensTypeName)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.EyeglassesId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.EyeglassesId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.EyeglassesId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div class="d-flex justify-content-between">
+    <form method="get" class="form-inline">
+        <input type="hidden" name="newCurPage" value="@(Model.CurrentPage - 1)" />
+        <input type="hidden" name="s1" value="@Model.Search1" />
+        <input type="hidden" name="s2" value="@Model.Search2" />
+        <button type="submit" class="btn btn-primary" @(Model.CurrentPage <= 1 ? "disabled" : "")>Previous</button>
+    </form>
+
+    <span>Page @Model.CurrentPage of @Model.TotalPages</span>
+
+    <form method="get" class="form-inline">
+        <input type="hidden" name="newCurPage" value="@(Model.CurrentPage + 1)" />
+        <input type="hidden" name="s1" value="@Model.Search1" />
+        <input type="hidden" name="s2" value="@Model.Search2" />
+        <button type="submit" class="btn btn-primary" @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")>Next</button>
+    </form>
+</div>
